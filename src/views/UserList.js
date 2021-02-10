@@ -8,14 +8,17 @@ import users from '../data/users';
 
 export default props => {
 
-    const { state } = useContext(UsersContext);
+    const { state, dispatch } = useContext(UsersContext);
 
     function confirmUserDeletion(user) {
         Alert.alert('Exluir usuário', 'Deseja excluir o usuário?', [
             {
                 text: 'Sim',
                 onPress() {
-                    console.warn('delete ID:' + user.id)
+                    dispatch({
+                        type: 'deleteUser',
+                        payload: user
+                    })
                 }
             },
             {
@@ -37,12 +40,12 @@ export default props => {
                 <Button
                     onPress={() => { props.navigation.navigate('UserForm', user) }}
                     type="clear"
-                    icon={<Icon name="edit" size={25} color='orange' />}
+                    icon={<Icon name="edit" size={25} color='#9e9e9e' />}
                 />
                 <Button
                     onPress={() => confirmUserDeletion(user)}
                     type="clear"
-                    icon={<Icon name="delete" size={25} color='red' />}
+                    icon={<Icon name="delete" size={25} color='orange' />}
                 />
             </ListItem>
         )

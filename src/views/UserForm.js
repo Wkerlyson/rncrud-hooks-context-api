@@ -1,14 +1,16 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { StyleSheet } from 'react-native';
 import { Button } from 'react-native';
 import { SafeAreaView } from 'react-native';
 import { Text } from 'react-native';
 import { TextInput } from 'react-native-gesture-handler';
+import UsersContext from '../context/UsersContext';
 
 export default ({ route, navigation }) => {
     //console.warn(Object.keys(props.route.params))
 
     const [user, setUser] = useState(route.params ? route.params : {});
+    const { dispatch } = useContext(UsersContext);
 
     return (
         <SafeAreaView style={style.form}>
@@ -34,7 +36,13 @@ export default ({ route, navigation }) => {
             <Button
                 color='#13054c'
                 title='Salvar'
-                onPress={() => { navigation.goBack() }}
+                onPress={() => {
+                    dispatch({
+                        type: user.id ? 'updateUser' : 'createUser',
+                        payload: user,
+                    })
+                    navigation.goBack()
+                }}
             />
         </SafeAreaView>
     );
